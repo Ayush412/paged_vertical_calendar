@@ -177,7 +177,7 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
         startWeekWithSunday: widget.startWeekWithSunday,
       );
 
-      WidgetsBinding.instance.addPostFrameCallback(
+      WidgetsBinding.instance!.addPostFrameCallback(
         (_) => widget.onMonthLoaded?.call(month.year, month.month),
       );
 
@@ -206,7 +206,7 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
         startWeekWithSunday: widget.startWeekWithSunday,
       );
 
-      WidgetsBinding.instance.addPostFrameCallback(
+      WidgetsBinding.instance!.addPostFrameCallback(
         (_) => widget.onMonthLoaded?.call(month.year, month.month),
       );
 
@@ -338,13 +338,10 @@ class _MonthView extends StatelessWidget {
                   DateUtils.getWeekDay(week.lastDay, startWeekWithSunday)) {
             return const SizedBox();
           } else {
-            return AspectRatio(
-              aspectRatio: 1.0,
-              child: InkWell(
-                onTap: onDayPressed == null ? null : () => onDayPressed!(day),
-                child: dayBuilder?.call(context, day) ??
-                    _DefaultDayView(date: day),
-              ),
+            return GestureDetector(
+              onTap: onDayPressed == null ? null : () => onDayPressed!(day),
+              child:
+                  dayBuilder?.call(context, day) ?? _DefaultDayView(date: day),
             );
           }
         },
