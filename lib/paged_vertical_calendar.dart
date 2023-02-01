@@ -227,47 +227,42 @@ class _PagedVerticalCalendarState extends State<PagedVerticalCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollable(
+    return CustomScrollView(
       controller: widget.scrollController,
       physics: widget.physics,
-      viewportBuilder: (BuildContext context, ViewportOffset position) {
-        return Viewport(
-          offset: position,
-          center: downListKey,
-          slivers: [
-            if (!hideUp)
-              PagedSliverList(
-                pagingController: _pagingReplyUpController,
-                builderDelegate: PagedChildBuilderDelegate<Month>(
-                  itemBuilder: (BuildContext context, Month month, int index) {
-                    return _MonthView(
-                      month: month,
-                      monthBuilder: widget.monthBuilder,
-                      dayBuilder: widget.dayBuilder,
-                      onDayPressed: widget.onDayPressed,
-                      startWeekWithSunday: widget.startWeekWithSunday,
-                    );
-                  },
-                ),
-              ),
-            PagedSliverList(
-              key: downListKey,
-              pagingController: _pagingReplyDownController,
-              builderDelegate: PagedChildBuilderDelegate<Month>(
-                itemBuilder: (BuildContext context, Month month, int index) {
-                  return _MonthView(
-                    month: month,
-                    monthBuilder: widget.monthBuilder,
-                    dayBuilder: widget.dayBuilder,
-                    onDayPressed: widget.onDayPressed,
-                    startWeekWithSunday: widget.startWeekWithSunday,
-                  );
-                },
-              ),
+      reverse: true,
+      slivers: [
+        PagedSliverList(
+          key: downListKey,
+          pagingController: _pagingReplyDownController,
+          builderDelegate: PagedChildBuilderDelegate<Month>(
+            itemBuilder: (BuildContext context, Month month, int index) {
+              return _MonthView(
+                month: month,
+                monthBuilder: widget.monthBuilder,
+                dayBuilder: widget.dayBuilder,
+                onDayPressed: widget.onDayPressed,
+                startWeekWithSunday: widget.startWeekWithSunday,
+              );
+            },
+          ),
+        ),
+        if (!hideUp)
+          PagedSliverList(
+            pagingController: _pagingReplyUpController,
+            builderDelegate: PagedChildBuilderDelegate<Month>(
+              itemBuilder: (BuildContext context, Month month, int index) {
+                return _MonthView(
+                  month: month,
+                  monthBuilder: widget.monthBuilder,
+                  dayBuilder: widget.dayBuilder,
+                  onDayPressed: widget.onDayPressed,
+                  startWeekWithSunday: widget.startWeekWithSunday,
+                );
+              },
             ),
-          ],
-        );
-      },
+          ),
+      ],
     );
   }
 
